@@ -18,7 +18,7 @@ public class MainLesson03 {
 
     public static void main(String[] args) {
         // 1.
-        //gameNumber();
+        gameNumber();
 
         // 2.
         gameWord();
@@ -102,7 +102,7 @@ public class MainLesson03 {
 
         String wordGame = words[random.nextInt(words.length)];
 
-        System.out.println("wordGame = "+wordGame); // debug
+        //System.out.println("wordGame = "+wordGame); // debug
 
         String wordIn;
 
