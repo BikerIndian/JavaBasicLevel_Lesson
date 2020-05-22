@@ -5,7 +5,7 @@ package lesson03;
     Факультет:      Geek University Android-разработки (478 - 12.05.2020)
     Курс: 		    Java Core. Базовый уровень
     Урок: 		    Урок 3. Практика
-    Дата правки:    21.05.2020
+    Дата правки:    22.05.2020
 */
 
 import java.util.Random;
@@ -102,7 +102,7 @@ public class MainLesson03 {
 
         String wordGame = words[random.nextInt(words.length)];
 
-        //System.out.println("wordGame = "+wordGame); // debug
+        System.out.println("wordGame = "+wordGame); // debug
 
         String wordIn;
 
@@ -124,7 +124,7 @@ public class MainLesson03 {
     private static void printHelp(String wordGame, String wordIn) {
 
         String helpWord = "";
-        for (int i = 0; i < wordIn.length(); i++) {
+        for (int i = 0; i < Math.min( wordIn.length() , wordGame.length() ); i++) {
             if (wordGame.charAt(i) == wordIn.charAt(i)){
                 helpWord += wordGame.charAt(i);
             }else {
