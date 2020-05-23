@@ -12,8 +12,9 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class MainLesson04 {
-    static final int SIZE = 3;
-//    static final int DOTS_TO_WIN = 3;
+    static final int SIZE = 5;
+    //    static final int DOTS_TO_WIN = 3;
+    static final int SIZE_CELL_WIN = 4;
 
     static final char DOT_X = 'X';
     static final char DOT_O = 'O';
@@ -99,6 +100,9 @@ public class MainLesson04 {
         return map[y][x] == DOT_EMPTY;
     }
 
+    /*
+        4. *** Доработать искусственный интеллект, чтобы он мог блокировать ходы игрока.
+    */
     public static void aiTurn() {
         int x, y;
 
@@ -121,37 +125,117 @@ public class MainLesson04 {
     }
 
 
+   /*
+        1. Полностью разобраться с кодом, попробовать переписать с нуля,
+        стараясь не подглядывать в методичку;
+
+        2. Переделать проверку победы, чтобы она не была реализована просто набором условий,
+        например, с использованием циклов.
+
+        3. * Попробовать переписать логику проверки победы,
+        чтобы она работала для поля 5х5 и количества фишек 4.
+        Очень желательно не делать это просто набором условий для каждой из возможных ситуаций;
+
+   */
+
     public static boolean checkWin(char c){
-        if (map[0][0] == c && map[0][1] == c && map[0][2] == c){
-            return true;
-        }
-        if (map[1][0] == c && map[1][1] == c && map[1][2] == c){
-            return true;
-        }
-        if (map[2][0] == c && map[2][1] == c && map[2][2] == c){
-            return true;
-        }
 
-        if (map[0][0] == c && map[1][0] == c && map[2][0] == c){
-            return true;
-        }
-        if (map[0][1] == c && map[1][1] == c && map[2][1] == c){
-            return true;
-        }
-        if (map[0][2] == c && map[1][2] == c && map[2][2] == c){
-            return true;
-        }
+        for (int y = 0; y < SIZE; y++) {
+            for (int x = 0; x < SIZE; x++) {
 
-        if (map[0][0] == c && map[1][1] == c && map[2][2] == c){
-            return true;
-        }
+                if (x <= (SIZE-SIZE_CELL_WIN) && checkHorizon(y,x,c)){
+                    return true;
+                }
 
-        if (map[0][2] == c && map[1][1] == c && map[2][0] == c){
-            return true;
+                if (y <= (SIZE-SIZE_CELL_WIN) && x <= (SIZE-SIZE_CELL_WIN)  && checkDiagonal(y,x,c)){
+                    return true;
+                }
+
+                if (y <= (SIZE-SIZE_CELL_WIN) && checkVertical(y,x,c)){
+                    return true;
+                }
+
+                if (y >= (SIZE_CELL_WIN-1) && x <= (SIZE-SIZE_CELL_WIN) && checkSecondaryDiagonal(y,x,c)){
+                    return true;
+                }
+
+            }
         }
 
         return false;
     }
 
+
+    /**
+     *  Проверка по горизонтали
+     *
+     * @param y Координата  по y
+     * @param x Координата  по x
+     * @param c Проверяемый символ
+     * @return
+     */
+    private static boolean checkHorizon(int y, int x, char c) {
+
+        for (int i = 0; i < SIZE_CELL_WIN; i++) {
+            if (map[y][x+i] != c ){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     *  Проверка по диагонали
+     *
+     * @param y Координата  по y
+     * @param x Координата  по x
+     * @param c Проверяемый символ
+     * @return
+     */
+    private static boolean checkDiagonal(int y, int x, char c) {
+
+        for (int i = 0; i < SIZE_CELL_WIN; i++) {
+            if (map[y+i][x+i] != c ){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     *  Проверка по вертикали
+     *
+     * @param y Координата  по y
+     * @param x Координата  по x
+     * @param c Проверяемый символ
+     * @return
+     */
+    private static boolean checkVertical(int y, int x, char c) {
+
+        for (int i = 0; i < SIZE_CELL_WIN; i++) {
+            if (map[y+i][x] != c ){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     *  Проверка по побочная диагонали
+     *
+     * @param y Координата  по y
+     * @param x Координата  по x
+     * @param c Проверяемый символ
+     * @return
+     */
+    private static boolean checkSecondaryDiagonal(int y, int x, char c) {
+
+        for (int i = 0; i < SIZE_CELL_WIN; i++) {
+            if (map[y-i][x+i] != c ){
+                return false;
+            }
+        }
+        return true;
+    }
 
 }
