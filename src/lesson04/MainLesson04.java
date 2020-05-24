@@ -24,6 +24,7 @@ public class MainLesson04 {
 
     static Scanner sc = new Scanner(System.in);
     static Random random = new Random();
+    private static int humanY, humanX;
 
     public static void main(String[] args) {
         initMap();
@@ -89,7 +90,11 @@ public class MainLesson04 {
             System.out.println("Введите координаты вашего хода X Y");
             x = sc.nextInt() - 1;
             y = sc.nextInt() - 1;
+
         } while (!isCellValid(y, x));
+
+        humanY = y;
+        humanX = x;
         map[y][x] = DOT_X;
     }
 
@@ -106,12 +111,136 @@ public class MainLesson04 {
     public static void aiTurn() {
         int x, y;
 
-        do {
-            x = random.nextInt(SIZE);
-            y = random.nextInt(SIZE);
-        } while (!isCellValid(y, x));
-        map[y][x] = DOT_O;
+        int helpAi=0;
+
+        if (!aiSly()) {
+            // Поставить рядом
+            do {
+                y = random.nextInt(3)+humanY -1;
+                x = random.nextInt(3)+humanX -1;
+                helpAi++;
+            } while (!isCellValid(y, x) && helpAi < 100); // Выйти если не удалось поставить рядом
+
+
+            // Поставить в любом месте
+            while (!isCellValid(y, x) && helpAi >= 100){
+                x = random.nextInt(SIZE);
+                y = random.nextInt(SIZE);
+            }
+
+            map[y][x] = DOT_O;
+        }
     }
+
+    private static boolean aiSly() {
+
+        for (int y = 0; y < SIZE; y++) {
+            for (int x = 0; x < SIZE; x++) {
+
+                if (isHorizon(x) && aiSlyCheckHorizon(y,x)){
+                    return true;
+                }
+
+                if (isDiagonal(y, x) && aiSlyCheckDiagonal(y,x)){
+                    return true;
+                }
+
+                /*
+                if (isVertical(y) ){
+                    return true;
+                }
+
+                if (isSecondaryDiagonal(y, x) ){
+                    return true;
+                }
+                */
+            }
+        }
+
+        return false;
+    }
+
+
+
+    private static boolean aiSlyCheckHorizon(int y, int x) {
+
+        boolean isHumanYX = false;
+        boolean isDOT_X = false;
+
+        int checkY, checkX;
+
+        for (int i = 0; i < SIZE_CELL_WIN; i++) {
+
+            checkY = y;
+            checkX = x+i;
+
+            // Если есть О то выход
+            if (map[checkY][checkX] == DOT_O ){
+                return false;
+            }
+
+            if (humanY == checkY && checkX == humanX){
+                isHumanYX = true;
+            } else if (map[checkY][checkX] == DOT_X ){
+                isDOT_X = true;
+            }
+
+        }
+
+        if (isHumanYX && isDOT_X){
+            for (int i = 0; i < SIZE_CELL_WIN; i++) {
+
+                checkY = y;
+                checkX = x+i;
+
+                if (isCellValid(checkY, checkX )){
+                    map[checkY][checkX] = DOT_O;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean aiSlyCheckDiagonal(int y, int x) {
+
+        boolean isHumanYX = false;
+        boolean isDOT_X = false;
+
+        int checkY, checkX;
+        for (int i = 0; i < SIZE_CELL_WIN; i++) {
+
+            checkY = y+i;
+            checkX = x+i;
+
+            // Если есть О то выход
+            if (map[checkY][checkX] == DOT_O ){
+                return false;
+            }
+
+            if (humanY == checkY && checkX == humanX){
+                isHumanYX = true;
+            } else if (map[checkY][checkX] == DOT_X ){
+                isDOT_X = true;
+            }
+
+        }
+
+        if (isHumanYX && isDOT_X){
+
+            for (int i = 0; i < SIZE_CELL_WIN; i++) {
+                checkY = y+i;
+                checkX = x+i;
+
+                if (isCellValid(checkY, checkX)){
+                    map[checkY][checkX] = DOT_O;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
     public static boolean isFull(){
         for (int i = 0; i < SIZE; i++) {
@@ -143,19 +272,19 @@ public class MainLesson04 {
         for (int y = 0; y < SIZE; y++) {
             for (int x = 0; x < SIZE; x++) {
 
-                if (x <= (SIZE-SIZE_CELL_WIN) && checkHorizon(y,x,c)){
+                if (isHorizon(x) && checkHorizon(y,x,c)){
                     return true;
                 }
 
-                if (y <= (SIZE-SIZE_CELL_WIN) && x <= (SIZE-SIZE_CELL_WIN)  && checkDiagonal(y,x,c)){
+                if (isDiagonal(y, x) && checkDiagonal(y,x,c)){
                     return true;
                 }
 
-                if (y <= (SIZE-SIZE_CELL_WIN) && checkVertical(y,x,c)){
+                if (isVertical(y) && checkVertical(y,x,c)){
                     return true;
                 }
 
-                if (y >= (SIZE_CELL_WIN-1) && x <= (SIZE-SIZE_CELL_WIN) && checkSecondaryDiagonal(y,x,c)){
+                if (isSecondaryDiagonal(y, x) && checkSecondaryDiagonal(y,x,c)){
                     return true;
                 }
 
@@ -163,6 +292,22 @@ public class MainLesson04 {
         }
 
         return false;
+    }
+
+    private static boolean isHorizon(int x){
+        return x <= (SIZE-SIZE_CELL_WIN);
+    }
+
+    private static boolean isDiagonal(int y, int x){
+        return y <= (SIZE-SIZE_CELL_WIN) && x <= (SIZE-SIZE_CELL_WIN) ;
+    }
+
+    private static boolean isVertical(int y){
+        return y <= (SIZE-SIZE_CELL_WIN) ;
+    }
+
+    private static boolean isSecondaryDiagonal(int y, int x){
+        return  y >= (SIZE_CELL_WIN-1) && x <= (SIZE-SIZE_CELL_WIN) ;
     }
 
 
