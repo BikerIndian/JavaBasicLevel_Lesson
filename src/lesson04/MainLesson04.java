@@ -137,23 +137,24 @@ public class MainLesson04 {
         for (int y = 0; y < SIZE; y++) {
             for (int x = 0; x < SIZE; x++) {
 
-                if (isHorizon(x) && aiSlyCheckHorizon(y,x)){
+                if (isHorizon(x) && aiSlyHorizon(y,x)){
                     return true;
                 }
 
-                if (isDiagonal(y, x) && aiSlyCheckDiagonal(y,x)){
+                if (isDiagonal(y, x) && aiSlyDiagonal(y,x)){
                     return true;
                 }
 
-                /*
-                if (isVertical(y) ){
+
+                if (isVertical(y) && aiSlyVertical(y,x)){
+
                     return true;
                 }
 
-                if (isSecondaryDiagonal(y, x) ){
+                if (isSecondaryDiagonal(y, x) && aiSlySecondaryDiagonal(y,x)){
                     return true;
                 }
-                */
+
             }
         }
 
@@ -162,7 +163,7 @@ public class MainLesson04 {
 
 
 
-    private static boolean aiSlyCheckHorizon(int y, int x) {
+    private static boolean aiSlyHorizon(int y, int x) {
 
         boolean isHumanYX = false;
         boolean isDOT_X = false;
@@ -202,7 +203,7 @@ public class MainLesson04 {
         return false;
     }
 
-    private static boolean aiSlyCheckDiagonal(int y, int x) {
+    private static boolean aiSlyDiagonal(int y, int x) {
 
         boolean isHumanYX = false;
         boolean isDOT_X = false;
@@ -230,6 +231,86 @@ public class MainLesson04 {
 
             for (int i = 0; i < SIZE_CELL_WIN; i++) {
                 checkY = y+i;
+                checkX = x+i;
+
+                if (isCellValid(checkY, checkX)){
+                    map[checkY][checkX] = DOT_O;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean aiSlyVertical(int y, int x) {
+
+        boolean isHumanYX = false;
+        boolean isDOT_X = false;
+
+        int checkY, checkX;
+        for (int i = 0; i < SIZE_CELL_WIN; i++) {
+
+            checkY = y+i;
+            checkX = x;
+
+            // Если есть О то выход
+            if (map[checkY][checkX] == DOT_O ){
+                return false;
+            }
+
+            if (humanY == checkY && checkX == humanX){
+                isHumanYX = true;
+            } else if (map[checkY][checkX] == DOT_X ){
+                isDOT_X = true;
+            }
+
+        }
+
+        if (isHumanYX && isDOT_X){
+
+            for (int i = 0; i < SIZE_CELL_WIN; i++) {
+                checkY = y+i;
+                checkX = x;
+
+                if (isCellValid(checkY, checkX)){
+                    map[checkY][checkX] = DOT_O;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean aiSlySecondaryDiagonal(int y, int x) {
+
+        boolean isHumanYX = false;
+        boolean isDOT_X = false;
+
+        int checkY, checkX;
+        for (int i = 0; i < SIZE_CELL_WIN; i++) {
+
+
+            checkY = y-i;
+            checkX = x+i;
+
+            // Если есть О то выход
+            if (map[checkY][checkX] == DOT_O ){
+                return false;
+            }
+
+            if (humanY == checkY && checkX == humanX){
+                isHumanYX = true;
+            } else if (map[checkY][checkX] == DOT_X ){
+                isDOT_X = true;
+            }
+
+        }
+
+        if (isHumanYX && isDOT_X){
+
+            for (int i = 0; i < SIZE_CELL_WIN; i++) {
+
+                checkY = y-i;
                 checkX = x+i;
 
                 if (isCellValid(checkY, checkX)){
