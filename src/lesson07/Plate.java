@@ -13,13 +13,22 @@ public class Plate {
 
     public boolean decreaseFood(int amount){
         if (0 > (food - amount)){
-            System.out.println("Не хватает еды");
             return false;
         } else {
             food -= amount;
             return true;
         }
 
+
+    }
+
+    // 6. Добавить в тарелку метод, с помощью которого можно было бы добавлять еду в тарелку
+    public void setFood(int food) {
+        if (0 > food){
+            System.out.println("Вы не положили еду");
+        } else {
+            this.food = food;
+        }
 
     }
 

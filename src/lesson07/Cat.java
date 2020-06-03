@@ -2,11 +2,12 @@ package lesson07;
 
 public class Cat {
     private String name;
-    private boolean satiety = false;
-    int hunger;
+    private boolean satiety = false; // сытость
+    private int hunger;              // голод
 
-    public Cat(String name) {
+    public Cat(String name, int hunger) {
         this.name = name;
+        this.hunger = hunger;
     }
 
     public String getName() {
@@ -14,11 +15,11 @@ public class Cat {
     }
 
     public void eat(Plate plate) {
-        System.out.println(name + " eat...");
-
-        if (plate.decreaseFood(hunger)){
-            satiety = true;
-        }
+        satiety = plate.decreaseFood(hunger);
     }
 
+    // Сытость
+    public boolean isSatiety() {
+        return satiety;
+    }
 }
