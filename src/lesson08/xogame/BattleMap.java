@@ -1,5 +1,8 @@
 package lesson08.xogame;
 
+import lesson08.xogame.logic.Human;
+import lesson08.xogame.view.GameWindow;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -7,6 +10,10 @@ import java.awt.event.MouseEvent;
 
 public class BattleMap extends JPanel {
     private GameWindow gameWindow;
+
+    private Configure configure = new Configure();
+    private Buf buf = new Buf();
+    private Human human = new Human();
 
     private int gameMode;
     private int fieldSizeX;
@@ -36,12 +43,15 @@ public class BattleMap extends JPanel {
         int cellX = e.getX() / cellWidth;
         int cellY = e.getY() / cellHeight;
 
-        if(!Logic.gameFinished){
-            Logic.setHumanCoords(cellX, cellY);
+        if(!buf.isGameFinished()){
+            human.turn(cellY,cellX);
+           // Logic.setHumanCoords(cellX, cellY);
         }
 
+        if (configure.isDebug()){
+            System.out.printf("mouseReleasedUpdate %d %d \n", cellX, cellY);
+        }
 
-        System.out.printf("cellX: %d  cellY: %d \n", cellX, cellY);
 
         repaint();
     }
@@ -74,12 +84,12 @@ public class BattleMap extends JPanel {
         }
 
 
-        for (int i = 0; i < Logic.SIZE; i++) {
-            for (int j = 0; j < Logic.SIZE; j++) {
-                if(Logic.map[i][j]==Logic.DOT_X){
+        for (int i = 0; i < configure.getSIZE(); i++) {
+            for (int j = 0; j < configure.getSIZE(); j++) {
+                if(buf.getChar(i,j)==configure.getDOT_X()){
                     drawX((Graphics2D) g, j, i);
                 }
-                if(Logic.map[i][j]==Logic.DOT_O){
+                if(buf.getChar(i,j)==configure.getDOT_O()){
                     drawO((Graphics2D) g, j, i);
                 }
             }

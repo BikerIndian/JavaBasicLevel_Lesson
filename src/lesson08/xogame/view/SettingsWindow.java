@@ -1,8 +1,9 @@
-package lesson08.xogame;
+package lesson08.xogame.view;
+
+import lesson08.xogame.Configure;
+import lesson08.xogame.Buf;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 public class SettingsWindow extends JFrame {
@@ -19,8 +20,8 @@ public class SettingsWindow extends JFrame {
 
     private GameWindow gameWindow;
 
-    private JRadioButton radioButtonHvsAi = new JRadioButton("Human vs Ai", true);
-    private JRadioButton radioButtonHvsH = new JRadioButton("Human vs Human");
+    private JRadioButton radioButtonHvsAi = new JRadioButton("Человек против Ai", true);
+    private JRadioButton radioButtonHvsH = new JRadioButton("Человек против Человека");
     private ButtonGroup gameMode = new ButtonGroup();
 
     private JSlider sliderFieldSize = new JSlider(MIN_FIELD_SIZE, MAX_FIELD_SIZE, MIN_FIELD_SIZE);
@@ -29,7 +30,7 @@ public class SettingsWindow extends JFrame {
     public SettingsWindow(GameWindow gameWindow){
         this.gameWindow = gameWindow;
         setBounds(WINDOW_POS_X, WINDOW_POS_Y, WINDOW_WIDTH, WINDOW_HEIGHT);
-        setTitle("Setting game");
+        setTitle("Настрйки игры");
 
         // Расположение в центре
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -40,19 +41,19 @@ public class SettingsWindow extends JFrame {
 
         setLayout(new GridLayout(8,1));
 
-        add(new JLabel(" Select game mode:"));
+        add(new JLabel(" Выбор режима игры:"));
         add(radioButtonHvsAi);
         add(radioButtonHvsH);
         gameMode.add(radioButtonHvsAi);
         gameMode.add(radioButtonHvsH);
 
-        add(new JLabel(" Select field's size:"));
+        add(new JLabel(" Выбор размера поля:"));
         sliderFieldSize.setMajorTickSpacing(1);
         sliderFieldSize.setPaintLabels(true);
         sliderFieldSize.setPaintTicks(true);
 
         add(sliderFieldSize);
-        add(new JLabel(" Select dots to win:"));
+        add(new JLabel(" Выбор победных ячеек:"));
         sliderDotsToWin.setMajorTickSpacing(1);
         sliderDotsToWin.setPaintLabels(true);
         sliderDotsToWin.setPaintTicks(true);
@@ -62,7 +63,7 @@ public class SettingsWindow extends JFrame {
             sliderDotsToWin.setMaximum(sliderFieldSize.getValue());
         });
 
-        JButton buttonStartNewGame = new JButton("StartNewGame");
+        JButton buttonStartNewGame = new JButton("Старт");
         buttonStartNewGame.setBackground(Color.cyan);
         add(buttonStartNewGame);
 
@@ -79,10 +80,17 @@ public class SettingsWindow extends JFrame {
             int fieldSize = sliderFieldSize.getValue();
             int dotsToWin = sliderDotsToWin.getValue();
 
-            Logic.SIZE = fieldSize;
-            Logic.DOTS_TO_WIN = dotsToWin;
-            Logic.initMap();
-            Logic.gameFinished = false;
+            Configure configure = new Configure();
+            configure.setSIZE(fieldSize);
+            configure.setSIZE_CELL_WIN(dotsToWin);
+            //Logic.SIZE = fieldSize;
+            //Logic.DOTS_TO_WIN = dotsToWin;
+
+            Buf buf = new Buf();
+            buf.initMap();
+
+            //Logic.initMap();
+            //Logic.gameFinished = false;
 
             gameWindow.startNewGame(mode,fieldSize,fieldSize,dotsToWin);
         });
