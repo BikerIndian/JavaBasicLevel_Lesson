@@ -118,17 +118,17 @@ public class BattleMap extends JPanel {
 
         // [\]
         g.drawLine(
-                cellX * cellWidth+size,
-                cellY * cellHeight+size,
-                (cellX + 1) * cellWidth-size,
-                (cellY + 1) * cellHeight-size);
+                cellX * cellWidth+(cellWidth/4),
+                cellY * cellHeight+(cellHeight/4),
+                (cellX + 1) * cellWidth-(cellWidth/4),
+                (cellY + 1) * cellHeight-(cellHeight/4));
 
         // [/]
         g.drawLine(
-                cellX * cellWidth+size,
-                (cellY + 1) * cellHeight-size,
-                (cellX + 1) * cellWidth-size,
-                cellY * cellHeight+size);
+                cellX * cellWidth+(cellWidth/4),
+                (cellY + 1) * cellHeight-(cellHeight/4),
+                (cellX + 1) * cellWidth-(cellWidth/4),
+                cellY * cellHeight+(cellHeight/4));
     }
 
 
