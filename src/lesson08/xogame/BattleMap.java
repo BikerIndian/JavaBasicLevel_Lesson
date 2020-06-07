@@ -77,7 +77,10 @@ public class BattleMap extends JPanel {
         for (int i = 0; i < Logic.SIZE; i++) {
             for (int j = 0; j < Logic.SIZE; j++) {
                 if(Logic.map[i][j]==Logic.DOT_X){
-                    drawX(g, j, i);
+                    drawX((Graphics2D) g, j, i);
+                }
+                if(Logic.map[i][j]==Logic.DOT_O){
+                    drawO((Graphics2D) g, j, i);
                 }
             }
         }
@@ -86,12 +89,36 @@ public class BattleMap extends JPanel {
 
     }
 
-    private void drawX(Graphics g, int cellX, int cellY) {
-//        g = (Graphics2D)g;
+    private void drawO(Graphics2D g, int cellX, int cellY) {
+        int size = 40;
+        g.setColor(Color.red);
+        g.setStroke(new BasicStroke(10.0f));  // толщина
+        g.drawOval(cellX * cellWidth+(cellWidth/4),cellY * cellHeight+(cellHeight/4),cellWidth/2,cellHeight/2);
+
+
+    }
+    private void drawX(Graphics2D g, int cellX, int cellY) {
+        int size = 40; // отступ от краёв
+
+        //g = (Graphics2D)g;
 
         g.setColor(Color.red);
-        g.drawLine(cellX * cellWidth, cellY * cellHeight,
-                (cellX + 1) * cellWidth, (cellY + 1) * cellHeight);
+        g.setStroke(new BasicStroke(10.0f));  // толщина
+
+
+        // [\]
+        g.drawLine(
+                cellX * cellWidth+size,
+                cellY * cellHeight+size,
+                (cellX + 1) * cellWidth-size,
+                (cellY + 1) * cellHeight-size);
+
+        // [/]
+        g.drawLine(
+                cellX * cellWidth+size,
+                (cellY + 1) * cellHeight-size,
+                (cellX + 1) * cellWidth-size,
+                cellY * cellHeight+size);
     }
 
 

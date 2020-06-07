@@ -17,6 +17,13 @@ public class GameWindow extends JFrame {
         setBounds(WINDOW_POS_X, WINDOW_POS_Y, WINDOW_WIDTH, WINDOW_HEIGHT);
         setTitle("TicTacToe");
 
+        // Расположение в центре
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = toolkit.getScreenSize();
+        int x = (screenSize.width - this.getWidth()) / 2;
+        int y = (screenSize.height - this.getHeight()) / 2;
+        this.setLocation(x, y);
+
         settingsWindow = new SettingsWindow(this);
         battleMap = new BattleMap(this);
         add(battleMap, BorderLayout.CENTER);
