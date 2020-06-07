@@ -1,6 +1,7 @@
 package lesson08.xogame;
 
 import lesson08.xogame.logic.Human;
+import lesson08.xogame.logic.HumanVsHuman;
 import lesson08.xogame.view.GameWindow;
 
 import javax.swing.*;
@@ -14,6 +15,7 @@ public class BattleMap extends JPanel {
     private Configure configure = new Configure();
     private Buf buf = new Buf();
     private Human human = new Human();
+    private HumanVsHuman humanVsHuman = new HumanVsHuman();
 
     private int gameMode;
     private int fieldSizeX;
@@ -43,8 +45,14 @@ public class BattleMap extends JPanel {
         int cellX = e.getX() / cellWidth;
         int cellY = e.getY() / cellHeight;
 
+        // Выбор режима игры
         if(!buf.isGameFinished()){
-            human.turn(cellY,cellX);
+            if (0 == gameMode ){
+                human.turn(cellY,cellX);
+            } else if (1 == gameMode){
+                humanVsHuman.turn(cellY,cellX);
+            }
+
            // Logic.setHumanCoords(cellX, cellY);
         }
 
@@ -99,18 +107,15 @@ public class BattleMap extends JPanel {
 
     }
 
+    // Рендер O
     private void drawO(Graphics2D g, int cellX, int cellY) {
-        int size = 40;
         g.setColor(Color.red);
         g.setStroke(new BasicStroke(10.0f));  // толщина
         g.drawOval(cellX * cellWidth+(cellWidth/4),cellY * cellHeight+(cellHeight/4),cellWidth/2,cellHeight/2);
-
-
     }
-    private void drawX(Graphics2D g, int cellX, int cellY) {
-        int size = 40; // отступ от краёв
 
-        //g = (Graphics2D)g;
+    // Рендер X
+    private void drawX(Graphics2D g, int cellX, int cellY) {
 
         g.setColor(Color.red);
         g.setStroke(new BasicStroke(10.0f));  // толщина

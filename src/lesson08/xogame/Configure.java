@@ -1,8 +1,8 @@
 package lesson08.xogame;
 
 public class Configure {
-    private boolean debug = true;
-    private static int SIZE = 5;
+    private boolean debug = false;
+    private static int SIZE = 3;
     private static int SIZE_CELL_WIN = 3;
    // private int DOTS_TO_WIN = 3;
 
@@ -10,6 +10,9 @@ public class Configure {
     private final char DOT_X = 'X';
     private final char DOT_O = 'O';
     private final char DOT_EMPTY = '.';
+
+    private final int MODE_H_VS_A = 0;
+    private final int MODE_H_VS_H = 1;
 
     public int getSIZE() {
         return SIZE;
@@ -38,16 +41,21 @@ public class Configure {
     public void setSIZE(int SIZE) {
         this.SIZE = SIZE;
     }
-/*
-    public int getDOTS_TO_WIN() {
-        return DOTS_TO_WIN;
-    }
 
-    public void setDOTS_TO_WIN(int DOTS_TO_WIN) {
-        this.DOTS_TO_WIN = DOTS_TO_WIN;
-    }
-*/
     public void setSIZE_CELL_WIN(int SIZE_CELL_WIN) {
         this.SIZE_CELL_WIN = SIZE_CELL_WIN;
     }
+
+    public int getMODE_H_VS_A() {
+        return MODE_H_VS_A;
+    }
+
+    public int getMODE_H_VS_H() {
+        return MODE_H_VS_H;
+    }
+
+
+
+
+
 }

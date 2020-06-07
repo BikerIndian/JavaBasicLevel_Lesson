@@ -15,8 +15,7 @@ public class SettingsWindow extends JFrame {
     private static final int MIN_FIELD_SIZE = 3;
     private static final int MAX_FIELD_SIZE = 10;
 
-    static final int MODE_H_VS_A = 0;
-    static final int MODE_H_VS_H = 1;
+    private Configure configure = new Configure();
 
     private GameWindow gameWindow;
 
@@ -72,9 +71,9 @@ public class SettingsWindow extends JFrame {
 
             int mode;
             if(radioButtonHvsAi.isSelected()){
-                mode = MODE_H_VS_A;
+                mode = configure.getMODE_H_VS_A();
             } else {
-                mode = MODE_H_VS_H;
+                mode = configure.getMODE_H_VS_H();
             }
 
             int fieldSize = sliderFieldSize.getValue();
