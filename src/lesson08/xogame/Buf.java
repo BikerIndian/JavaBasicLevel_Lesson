@@ -1,5 +1,7 @@
 package lesson08.xogame;
 
+import lesson08.xogame.logic.HumanVsHuman;
+
 public class Buf {
     private Configure configure = new Configure();
 
@@ -8,6 +10,9 @@ public class Buf {
 
 
     public void initMap() {
+
+        new HumanVsHuman().clear();
+
         if (configure.isDebug()){
             System.out.println("configure.getSIZE() = " + configure.getSIZE()+ ", win = "+ configure.getSIZE_CELL_WIN());
 

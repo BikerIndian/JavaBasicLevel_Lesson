@@ -51,4 +51,8 @@ public class HumanVsHuman {
             coreGame.mess("Ничья");
         }
     }
+    public void clear(){
+        this.human1Turn = true;
+        this.human2Turn = false;
+    }
 }
