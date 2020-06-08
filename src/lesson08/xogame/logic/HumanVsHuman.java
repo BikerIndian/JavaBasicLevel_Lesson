@@ -39,14 +39,10 @@ public class HumanVsHuman {
         if (win.checkWin(configure.getDOT_X())){
             buf.setGameFinished(true);
             coreGame.mess("Выиграл 1 игрок");
-        }
-
-        if (win.checkWin(configure.getDOT_O())){
+        } else if (win.checkWin(configure.getDOT_O())){
             buf.setGameFinished(true);
             coreGame.mess("Выиграл 2 игрок");
-        }
-
-        if (buf.isFull()){
+        } else if (buf.isFull()){
             buf.setGameFinished(true);
             coreGame.mess("Ничья");
         }
